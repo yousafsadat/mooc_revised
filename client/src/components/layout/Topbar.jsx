@@ -1,9 +1,11 @@
 import React from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const Topbar = () => {
   const { currentUser, logout } = useAuth();
+  const navigate = useNavigate();
 
   const roleColorMap = {
     student: 'bg-yellow-500',
@@ -12,6 +14,11 @@ const Topbar = () => {
   };
 
   const roleBadge = roleColorMap[currentUser?.role] || 'bg-gray-400';
+
+  const handleLogout = () => {
+    logout();             // Clears auth context
+    navigate('/');        // Redirects to landing page
+  };
 
   return (
     <header className="bg-white shadow px-6 py-4 border-b border-gray-200">
@@ -38,7 +45,7 @@ const Topbar = () => {
 
           {/* Logout */}
           <button
-            onClick={logout}
+            onClick={handleLogout}
             className="text-sm text-blue-600 hover:underline font-medium"
           >
             Logout

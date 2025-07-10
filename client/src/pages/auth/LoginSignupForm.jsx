@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+
 
 const LoginSignupForm = () => {
   const { login, currentUser } = useAuth();
+  const navigate = useNavigate(); // <-- Step 2: Add navigation logic
   const [isActive, setIsActive] = useState(false);
 
   // Login state and handlers
@@ -19,6 +22,7 @@ const LoginSignupForm = () => {
     }));
   };
 
+  // Step 3: Update handleLoginSubmit to navigate after login
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     if (loginData.username && loginData.role) {
@@ -26,6 +30,7 @@ const LoginSignupForm = () => {
         username: loginData.username,
         role: loginData.role,
       });
+      navigate('/dashboard');
     }
   };
 

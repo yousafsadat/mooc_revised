@@ -5,9 +5,32 @@ import LinearProgress from '@mui/material/LinearProgress';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
+import {
+  PieChart, Pie, Cell, Tooltip, ResponsiveContainer,
+  BarChart, Bar, XAxis, YAxis
+} from 'recharts';
 
 const StudentDashboard = () => {
   const [enrollments, setEnrollments] = useState(enrollmentsData);
+
+  // Analytics setup
+  const totalCourses = enrollments.length;
+  const completedCourses = enrollments.filter((e) => e.progress === 100).length;
+  const certificateData = [
+    {
+      name: 'Approved',
+      value: enrollments.filter((e) => e.certificateStatus === 'approved').length,
+    },
+    {
+      name: 'Pending',
+      value: enrollments.filter((e) => e.certificateStatus === 'pending').length,
+    },
+    {
+      name: 'Rejected',
+      value: enrollments.filter((e) => e.certificateStatus === 'rejected').length,
+    },
+  ];
+  const COLORS = ['#10b981', '#f59e0b', '#ef4444'];
 
   const isEnrolled = (courseId) => enrollments.some((e) => e.courseId === courseId);
 
@@ -34,6 +57,68 @@ const StudentDashboard = () => {
 
   return (
     <div className="space-y-10">
+      {/* Summary Cards */}
+      <div className="grid sm:grid-cols-3 gap-6 mb-8">
+        <div className="bg-white rounded-lg shadow p-5 border">
+          <p className="text-sm text-gray-500">Enrolled Courses</p>
+          <p className="text-2xl font-bold text-blue-600">{totalCourses}</p>
+        </div>
+        <div className="bg-white rounded-lg shadow p-5 border">
+          <p className="text-sm text-gray-500">Completed Courses</p>
+          <p className="text-2xl font-bold text-green-600">{completedCourses}</p>
+        </div>
+        <div className="bg-white rounded-lg shadow p-5 border">
+          <p className="text-sm text-gray-500">Certificates</p>
+          <p className="text-2xl font-bold text-yellow-600">{enrollments.length}</p>
+        </div>
+      </div>
+
+      {/* Certificates Pie Chart */}
+      <section>
+        <h2 className="text-2xl font-bold text-black mb-4">Certificate Status</h2>
+        <div className="bg-white p-5 rounded-lg border shadow">
+          <ResponsiveContainer width="100%" height={250}>
+            <PieChart>
+              <Pie
+                data={certificateData}
+                dataKey="value"
+                nameKey="name"
+                outerRadius={80}
+                label
+              >
+                {certificateData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+      </section>
+
+      {/* Course Progress Chart */}
+      <section>
+        <h2 className="text-2xl font-bold text-black mb-4">My Course Progress</h2>
+        <div className="bg-white p-5 rounded-lg border shadow">
+          <ResponsiveContainer width="100%" height={250}>
+            <BarChart
+              data={enrollments.map((e) => {
+                const course = courses.find((c) => c.id === e.courseId);
+                return {
+                  name: course?.title || 'Course',
+                  progress: e.progress,
+                };
+              })}
+            >
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="progress" fill="#3b82f6" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </section>
+
       {/* Available Courses */}
       <section>
         <h2 className="text-2xl font-bold text-black mb-4">Available Courses</h2>
@@ -86,30 +171,6 @@ const StudentDashboard = () => {
                   color="primary"
                   className="rounded h-3"
                 />
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Certificates */}
-      <section>
-        <h2 className="text-2xl font-bold text-black mb-4">My Certificates</h2>
-        <div className="space-y-4">
-          {enrollments.map((enroll) => {
-            const course = courses.find((c) => c.id === enroll.courseId);
-            return (
-              <div
-                key={enroll.courseId}
-                className="bg-white flex justify-between items-center p-4 rounded-lg shadow border"
-              >
-                <div>
-                  <h3 className="text-base font-medium text-black">
-                    {course?.title}
-                  </h3>
-                  <p className="text-sm text-gray-500">Status: {enroll.certificateStatus}</p>
-                </div>
-                <div>{getCertificateIcon(enroll.certificateStatus)}</div>
               </div>
             );
           })}
