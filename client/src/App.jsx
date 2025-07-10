@@ -9,6 +9,8 @@ import StudentDashboard from './pages/dashboard/StudentDashboard';
 import InstructorDashboard from './pages/dashboard/InstructorDashboard';
 import AdminDashboard from './pages/dashboard/AdminDashboard';
 import DashboardLayout from './components/layout/DashboardLayout';
+import Courses from './pages/course/Courses'; // <-- Make sure this import exists
+import About from './pages/About';
 
 const App = () => {
   const { currentUser } = useAuth();
@@ -29,7 +31,9 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/about" element={<About />} />
         <Route path="/login" element={<LoginSignupForm />} />
+        <Route path="/courses" element={<Courses />} /> {/* <-- Added or ensured */}
         <Route
           path="/dashboard"
           element={
