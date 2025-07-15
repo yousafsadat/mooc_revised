@@ -13,12 +13,22 @@ const Topbar = () => {
     admin: 'bg-green-500',
   };
 
+  // Ensure currentUser and currentUser.role exist before accessing role
   const roleBadge = roleColorMap[currentUser?.role] || 'bg-gray-400';
 
   const handleLogout = () => {
-    logout();             // Clears auth context
-    navigate('/');        // Redirects to landing page
+    logout();         // Clears auth context (and localStorage via useEffect in context)
+    navigate('/');    // Redirects to landing page
   };
+
+  // Add a conditional render check for currentUser
+  // If currentUser is null (not logged in), don't render user-specific parts of the Topbar
+  if (!currentUser) {
+    // You might want to render a different topbar or nothing if not logged in
+    // For now, returning null for a simple case, adjust as per your UI/UX needs.
+    // Or consider moving this Topbar component inside a protected route or layout.
+    return null;
+  }
 
   return (
     <header className="bg-white shadow px-6 py-4 border-b border-gray-200">
@@ -37,7 +47,9 @@ const Topbar = () => {
           {/* User Info */}
           <div className="flex items-center gap-3">
             <div className="text-right">
-              <p className="text-sm font-medium text-black">{currentUser.name}</p>
+              {/* --- CHANGE IS HERE --- */}
+              <p className="text-sm font-medium text-black">{currentUser.username}</p>
+              {/* --- END CHANGE --- */}
               <p className="text-xs text-gray-500 capitalize">{currentUser.role}</p>
             </div>
             <span className={`w-3 h-3 rounded-full ${roleBadge}`} />
