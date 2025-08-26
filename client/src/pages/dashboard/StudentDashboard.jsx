@@ -5,8 +5,9 @@ import LinearProgress from '@mui/material/LinearProgress';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
-import {
-  PieChart, Pie, Cell, Tooltip, ResponsiveContainer,
+import { useNavigate } from 'react-router-dom';
+
+import {  PieChart, Pie, Cell, Tooltip, ResponsiveContainer,
   BarChart, Bar, XAxis, YAxis
 } from 'recharts';
 
@@ -55,8 +56,15 @@ const StudentDashboard = () => {
     }
   };
 
+  const navigate = useNavigate();
+
   return (
     <div className="space-y-10">
+      <h1 className="text-3xl font-bold text-black mb-6">Student Dashboard</h1>
+      <p>Complete your registration by clicking here to fill the form.</p>
+      <button onClick={() => navigate('/student/form')} className="mt-4 bg-blue-500 text-white py-2 px-4 rounded">
+        Go to Registration
+      </button>
       {/* Summary Cards */}
       <div className="grid sm:grid-cols-3 gap-6 mb-8">
         <div className="bg-white rounded-lg shadow p-5 border">

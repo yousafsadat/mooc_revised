@@ -2,18 +2,23 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext'; // Import AuthProvider and useAuth
+// import { useParams } from "react-router-dom";
 
 // Import your pages/components
 import LandingPage from './pages/LandingPage';
 import LoginSignupForm from './pages/auth/LoginSignupForm';
 import About from './pages/About';
-import Courses from './pages/course/Courses'; // Ensure this path is correct
+import Courses from './pages/course/Courses'; 
+import LectureContent from './pages/course/LectureContent';
 
 // Dashboard components
 import StudentDashboard from './pages/dashboard/StudentDashboard';
 import InstructorDashboard from './pages/dashboard/InstructorDashboard';
 import AdminDashboard from './pages/dashboard/AdminDashboard';
 import DashboardLayout from './components/layout/DashboardLayout'; // Your layout component
+
+//Registration Form
+import StudentRegistration from './pages/dashboard/student/StudentRegistration';
 
 // --- New: Unauthorized Page Component ---
 const Unauthorized = () => (
@@ -88,6 +93,8 @@ const App = () => {
           <Route path="/login" element={<LoginSignupForm />} /> {/* Your login/signup form */}
           <Route path="/courses" element={<Courses />} /> {/* Public courses page, if any */}
           <Route path="/unauthorized" element={<Unauthorized />} /> {/* New Unauthorized page */}
+          <Route path="/student/form" element={<StudentRegistration />} />
+         <Route path="/courses/:courseId" element={<LectureContent />} />
 
           {/* Protected Dashboard Route (General) */}
           {/* This route will dynamically render the correct dashboard based on role */}

@@ -10,6 +10,7 @@ import cors from 'cors'; // <--- NEW: Import the cors package
 
 // Import your routes
 import authRoutes from './routes/authRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 
 // Load env vars
 dotenv.config({ path: './.env' });
@@ -51,6 +52,7 @@ app.use(cors({
 
 // Mount routers
 app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 // ... other routes
 
 // Basic route for testing

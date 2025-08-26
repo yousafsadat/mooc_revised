@@ -1,28 +1,29 @@
-import React, { useState } from 'react';
-import courses from '../../dummy/courses';
-import { Button, Chip } from '@mui/material';
-import { Star } from '@mui/icons-material';
-import Navbar from '../../components/common/Navbar'; // Add this import
+import React, { useState } from "react";
+import courses from "../../dummy/courses";
+import { Button, Chip } from "@mui/material";
+import { Star } from "@mui/icons-material";
+import Navbar from "../../components/common/Navbar";
+import { Link } from "react-router-dom"; // ✅ Correct import
 
 const statusColors = {
-  Active: 'bg-green-100 text-green-700',
-  Completed: 'bg-blue-100 text-blue-700',
-  Dropped: 'bg-red-100 text-red-700',
+  Active: "bg-green-100 text-green-700",
+  Completed: "bg-blue-100 text-blue-700",
+  Dropped: "bg-red-100 text-red-700",
 };
 
 const Courses = () => {
-  const [filter, setFilter] = useState('All');
+  const [filter, setFilter] = useState("All");
 
   const filteredCourses =
-    filter === 'All'
+    filter === "All"
       ? courses
       : courses.filter((course) => course.status === filter);
 
-  const filters = ['All', 'Active', 'Completed', 'Dropped'];
+  const filters = ["All", "Active", "Completed", "Dropped"];
 
   return (
     <div className="bg-white text-black px-6 py-20 min-h-screen">
-      <Navbar /> {/* Add Navbar at the top */}
+      <Navbar />
       <div className="max-w-7xl mx-auto">
         {/* Heading + Filters + Search */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
@@ -32,10 +33,10 @@ const Courses = () => {
               {filters.map((status) => (
                 <Chip
                   key={status}
-                  label={status + ' Courses'}
+                  label={status + " Courses"}
                   onClick={() => setFilter(status)}
-                  color={filter === status ? 'primary' : 'default'}
-                  variant={filter === status ? 'filled' : 'outlined'}
+                  color={filter === status ? "primary" : "default"}
+                  variant={filter === status ? "filled" : "outlined"}
                 />
               ))}
             </div>
@@ -54,12 +55,12 @@ const Courses = () => {
           {filteredCourses.map((course) => (
             <div
               key={course.id}
-              className={`rounded-xl shadow-sm hover:shadow-md transition overflow-hidden`}
+              className="rounded-xl shadow-sm hover:shadow-md transition overflow-hidden"
             >
               {/* Gradient Header */}
               <div
                 className={`h-28 flex items-center justify-center text-white text-lg font-semibold ${
-                  course.color || 'bg-gradient-to-r from-blue-500 to-purple-500'
+                  course.color || "bg-gradient-to-r from-blue-500 to-purple-500"
                 }`}
               >
                 {course.title}
@@ -71,7 +72,8 @@ const Courses = () => {
                 <div className="mb-2">
                   <span
                     className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
-                      statusColors[course.status] || 'bg-gray-200 text-gray-700'
+                      statusColors[course.status] ||
+                      "bg-gray-200 text-gray-700"
                     }`}
                   >
                     {course.status}
@@ -79,7 +81,9 @@ const Courses = () => {
                 </div>
 
                 {/* Title */}
-                <h2 className="text-base font-semibold mb-1 text-gray-900">{course.title}</h2>
+                <h2 className="text-base font-semibold mb-1 text-gray-900">
+                  {course.title}
+                </h2>
 
                 {/* Progress Bar */}
                 <div className="mb-2">
@@ -87,11 +91,11 @@ const Courses = () => {
                   <div className="w-full h-2 bg-gray-200 rounded">
                     <div
                       className={`h-2 rounded ${
-                        course.status === 'Completed'
-                          ? 'bg-green-500'
-                          : course.status === 'Dropped'
-                          ? 'bg-red-400'
-                          : 'bg-blue-400'
+                        course.status === "Completed"
+                          ? "bg-green-500"
+                          : course.status === "Dropped"
+                          ? "bg-red-400"
+                          : "bg-blue-400"
                       }`}
                       style={{ width: `${course.progress}%` }}
                     />
@@ -100,9 +104,7 @@ const Courses = () => {
 
                 {/* Footer */}
                 <div className="flex items-center justify-between mt-2 text-sm text-gray-500">
-                  <span>
-                    👥 {course.students.toLocaleString()} students
-                  </span>
+                  <span>👥 {course.students.toLocaleString()} students</span>
                   <div className="flex items-center gap-1">
                     <Star className="text-yellow-500" fontSize="small" />
                     <span>{course.rating}</span>
@@ -111,14 +113,18 @@ const Courses = () => {
 
                 {/* CTA */}
                 <div className="mt-4">
-                  <Button
-                    variant="text"
-                    color="primary"
-                    size="small"
-                    fullWidth
-                  >
-                    {course.status === 'Completed' ? 'View Certificate' : 'Continue'}
-                  </Button>
+                  <Link to={`/courses/${course.id}`}>
+                    <Button
+                      variant="text"
+                      color="primary"
+                      size="small"
+                      fullWidth
+                    >
+                      {course.status === "Completed"
+                        ? "View Certificate"
+                        : "Continue"}
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>

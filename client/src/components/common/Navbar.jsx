@@ -56,6 +56,7 @@ const Navbar = () => {
 
         {/* Desktop Sign In */}
         <div className="hidden md:flex">
+          <a className='px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white mr-2 text-sm' href="https://smartgpa.netlify.app/">Prediction</a>
           <Link to="/login">
             <button className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-lg text-sm font-medium shadow hover:opacity-90 transition">
               Sign In
@@ -97,6 +98,7 @@ const Navbar = () => {
 
           {/* Sign In Button */}
           <div className="pt-6">
+            {/* <a className='px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white mb-10 text-sm' href="https://smartgpa.netlify.app/">Prediction</a> */}
             <Link to="/login">
               <button
                 onClick={() => setDrawerOpen(false)}
